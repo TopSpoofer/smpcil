@@ -1,0 +1,7 @@
+安装smpcil执行指令：
+	1：make
+	2：sudo make install
+	这样smpcil就被安装在/usr/lib/;头文件在/usr/include/smpcil下
+卸载smpcil执行指令：
+	1：make uninstall
+使用参考example
