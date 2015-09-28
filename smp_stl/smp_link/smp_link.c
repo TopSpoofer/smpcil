@@ -131,6 +131,7 @@ static struct smp_link_node_s *smp_link_rm_node(struct smp_link_s *link,
         }
         node->prev = node->next = NULL;
         link->size--;
+        
         return node;
     }
 
@@ -143,6 +144,7 @@ static struct smp_link_node_s *smp_link_rm_node(struct smp_link_s *link,
         }
         node->prev = node->next = NULL;
         link->size--;
+        
         return node;
     }
 
@@ -150,6 +152,7 @@ static struct smp_link_node_s *smp_link_rm_node(struct smp_link_s *link,
     node->next->prev = node->prev;
     node ->next = node->prev = NULL;
     link->size--;
+    
     return node;
 }
 
@@ -216,6 +219,7 @@ void *smp_link_node_rm(struct smp_link_s *link, void *data, smp_link_data_cmp *c
 inline size_t smp_link_size(struct smp_link_s *link)
 {
     if (smp_unlikely(link == NULL)) return 0;
+    
     return link->size;
 }
 
