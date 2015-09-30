@@ -3,6 +3,9 @@
 #include "../smp_linux/smp_system/smp_system.h"
 
 
+extern char **environ;
+
+
 void smp_test_sys_name2pid()
 {
     sleep(10);
@@ -10,27 +13,42 @@ void smp_test_sys_name2pid()
     printf("pid %d\n", pid);
 }
 
-void smp_test_sys_reset_pname()
+void smp_test_sys_reset_pname(int argc, char *argv[])
 {
-    sleep(5);
     int pid = smp_sys_getpid_byname("smpcil");
     printf("pid %d\n", pid);
+    smp_set_proc_titel("fork_smpcil_tetsgfdhdfhgfdhfghfghsdvsdvsvdsdvsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfgh--", argc, argv);
 
-    int ret = smp_sys_reset_pname("fork_smpcil_tets");
-    printf("%d\n", ret);
-
-    pid = smp_sys_getpid_byname("smpcil");
+    pid = smp_sys_getpid_byname("fork_smpcil_tetsgfdhdfhgfdhfghfghsdvsdvsvdsdvsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfgh--");
     printf("pid %d\n", pid);
+    sleep(10000);
 
-    pid = smp_sys_getpid_byname("fork_smpcil_tets");
-    printf("pid %d\n", pid);
-    sleep(100);
+    int i = 0;
+    for (i = 0; environ[i]; i++) {
+        printf("%s\n", environ[i]);
+    }
 
+    pid_t pid_f;
+    if ((pid_f = fork()) == -1) return;
+    else {
+        if (pid_f == 0) { //child
+            int i = 0;
+            for (i = 0; environ[i]; i++) {
+                printf("---%s---\n", environ[i]);
+            }
+        }else { //parent
+            sleep(1);
+            int i = 0;
+            for (i = 0; environ[i]; i++) {
+                printf("+++%s+++\n", environ[i]);
+            }
+        }
+    }
 }
 
-void smp_test_sys_main()
+void smp_test_sys_main(int argc, char *argv[])
 {
 //    smp_test_sys_name2pid();
-    smp_test_sys_reset_pname();
+    smp_test_sys_reset_pname(argc, argv);
 }
 

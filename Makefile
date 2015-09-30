@@ -146,6 +146,7 @@ smp_signal.o: ./smp_linux/smp_sig/smp_signal.c ./smpcil.h \
 	$(CC) -c $(CFLAGS) -o smp_signal.o ./smp_linux/smp_sig/smp_signal.c
 
 smp_system.o: ./smp_linux/smp_system/smp_system.c ./smpcil.h \
+		./smp_mpool/smp_mpool.h \
 		./smp_linux/smp_system/smp_system.h
 	$(CC) -c $(CFLAGS) -o smp_system.o ./smp_linux/smp_system/smp_system.c
 
@@ -160,5 +161,6 @@ clean:
 
 uninstall:
 	rm -rf /usr/include/smpcil
+	rm -rf /usr/lib/libsmpcil.so
 FORCE:
 
