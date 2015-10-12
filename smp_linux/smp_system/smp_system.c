@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define __USE_GNU
+#define _GNU_SOURCE
+#include <sched.h>
+#include <sys/wait.h>
+
 #include "../../smpcil.h"
 #include "../../smp_mpool/smp_mpool.h"
 #include <sys/prctl.h>
@@ -8,6 +15,30 @@ extern char **environ;
 
 static char *smp_sys_argv_last = NULL;
 static char *smp_sys_env_last = NULL;
+
+
+/**
+ *
+ *  bind cpu for the process.
+ *
+ *  @param cpu_id, is the cpu id.
+ *
+ *  @param pid, is the proc id.
+ *
+ **/
+
+SMP_VALUE spo_bind_cpu(int cpu_id, pid_t pid)
+{
+    cpu_set_t mask; /*mask set.*/
+
+    cpu_id = cpu_id % sysconf(_SC_NPROCESSORS_CONF);
+
+    CPU_ZERO(&mask);    /*clear mask*/
+    CPU_SET(cpu_id, &mask); /*bind cpu*/
+
+    if (sched_setaffinity(pid, sizeof(mask), &mask) == -1) return SMP_FAILURE;
+    else return SMP_OK;
+}
 
 
 /**
@@ -32,6 +63,7 @@ u_char *smp_strcpyn(u_char *dst, const u_char *src, size_t n)
 
     return dst;
 }
+
 
 SMP_VALUE smp_sys_getpid_byname(const char *name)
 {
@@ -59,13 +91,14 @@ SMP_VALUE smp_sys_getpid_byname(const char *name)
     }
 }
 
+
 static SMP_VALUE smp_cpy_environs()
 {
     u_char *new_addr = NULL;
     size_t size = smp_sys_env_last - environ[0];
 
     if ((new_addr = smp_calloc(size)) == NULL) return SMP_FAILURE;
-    else {	/* 复制环境变量到新的地址上 */
+    else {  /* 复制环境变量到新的地址上 */
         u_char *current = new_addr;
         u_char *p = current;
         int i = 0;
@@ -82,6 +115,7 @@ static SMP_VALUE smp_cpy_environs()
     return SMP_OK;
 }
 
+
 static SMP_VALUE smp_init_set_proc_title(int argc, char **argv)
 {
     int i = 0;
@@ -91,7 +125,7 @@ static SMP_VALUE smp_init_set_proc_title(int argc, char **argv)
     /* 解决argv[i]被修改后指向的非进程启动时的连续内存, 来自nginx */
     for (i = 0; i < argc; i++) {
         if (smp_sys_argv_last == argv[i]) {
-            smp_sys_argv_last = argv[i] + strlen(argv[i]) + 1;	/* 加上1是为了补上最后的'\0' */
+            smp_sys_argv_last = argv[i] + strlen(argv[i]) + 1;  /* 加上1是为了补上最后的'\0' */
         }
     }
 
@@ -108,11 +142,12 @@ static SMP_VALUE smp_init_set_proc_title(int argc, char **argv)
     return SMP_OK;
 }
 
+
 static SMP_VALUE smp_reset_proc_titel(const u_char *title, size_t tlen, int argc, char **argv)
 {
     u_char *params = NULL;
 
-    if (argc <= 1) {	/* 没有参数时, 直接覆盖 */
+    if (argc <= 1) {    /* 没有参数时, 直接覆盖 */
         memset(argv[0], '\0', smp_sys_env_last - argv[0]);
         memcpy(argv[0], title, tlen);
         return SMP_OK;
@@ -122,21 +157,21 @@ static SMP_VALUE smp_reset_proc_titel(const u_char *title, size_t tlen, int argc
         size_t size = smp_sys_argv_last - argv[1];
         int i = 0;
 
-        if ((params = malloc(size)) == NULL) return 0;
+        if ((params = smp_calloc(size)) == NULL) return 0;
         current = params;
         p = current;
 
-        for (i = 1; i < argc; i++) {	/* 备份程序参数 */
+        for (i = 1; i < argc; i++) {    /* 备份程序参数 */
             current = smp_strcpyn(current, (u_char *) argv[i], strlen(argv[i]));
             argv[i] = (char *) p;
             current++;
             p = current;
         }
 
-        memset(argv[0], '\0', smp_sys_env_last - argv[0]);	/* 一致性全部置 '\0' */
+        memset(argv[0], '\0', smp_sys_env_last - argv[0]);  /* 一致性全部置 '\0' */
         current = smp_strcpyn((u_char *) argv[0], title, tlen);
 
-        current++;	/* 加上1是为了补上最后的 '\0' */
+        current++;  /* 加上1是为了补上最后的 '\0' */
         p = current;
 
         for (i = 1; i < argc; i++) {
@@ -149,6 +184,7 @@ static SMP_VALUE smp_reset_proc_titel(const u_char *title, size_t tlen, int argc
 
     return SMP_OK;
 }
+
 
 SMP_VALUE smp_set_proc_titel(const char *title, int argc, char **argv)
 {
