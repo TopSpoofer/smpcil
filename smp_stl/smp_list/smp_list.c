@@ -7,10 +7,10 @@
 #define SMP_LIST_POOL_SIZE  (4096)
 
 
+static struct smp_list_s *smp_list_init(void *pool, size_t elem_size, uint part_elem_maxmnt);
 static void smp_list_visit_part_elems(smp_lpart_t *part, smp_visit_list_elem *visit_func);
 static void smp_list_visit_parts(struct smp_list_s *list, smp_visit_list_elem *visit_func);
 static void __smp_list_init(struct smp_list_s *list, smp_pool_t *pool, size_t esize, uint maxmnt);
-
 
 
 static void __smp_list_init(struct smp_list_s *list, smp_pool_t *pool, size_t esize, uint maxmnt)
@@ -26,7 +26,7 @@ static void __smp_list_init(struct smp_list_s *list, smp_pool_t *pool, size_t es
 }
 
 
-struct smp_list_s *smp_list_init(void *pool, size_t elem_size, uint part_elem_maxmnt)
+static struct smp_list_s *smp_list_init(void *pool, size_t elem_size, uint part_elem_maxmnt)
 {
     struct smp_list_s *list = NULL;
 
