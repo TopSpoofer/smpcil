@@ -27,6 +27,15 @@ SMP_STATUS smp_test_rdata_free(void *data)
     return SMP_OK;
 }
 
+SMP_STATUS smp_test_rkey_print(void *data)
+{
+    if (data != NULL) {
+        printf("%d ", *((int *) data));
+    } else printf("err\n");
+
+    return SMP_OK;
+}
+
 
 SMP_STATUS smp_test_rbt_order(smp_rbt_t *rbt)
 {
@@ -34,9 +43,9 @@ SMP_STATUS smp_test_rbt_order(smp_rbt_t *rbt)
 
     printf("the rbt size : %ld\n", rbt->size);
     printf("\n------- test order -----\n");
-    smp_rbt_preorder(rbt);
-    smp_rbt_inorder(rbt);;
-    smp_rbt_postorder(rbt);
+    smp_rbt_preorder(rbt, smp_test_rkey_print);
+    smp_rbt_inorder(rbt, smp_test_rkey_print);
+    smp_rbt_postorder(rbt, smp_test_rkey_print);
 
     printf("\n------- test min and max -----\n");
     node = smp_rnode_min(rbt);

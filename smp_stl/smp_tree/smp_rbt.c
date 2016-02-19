@@ -22,6 +22,12 @@ static SMP_STATUS smp_do_rbt_clean(struct smp_rbt_s *rbt,
                                    smp_queue_t *queue_busy, smp_queue_t *queue_idle);
 static SMP_STATUS smp_rbt_clean(struct smp_rbt_s *rbt);
 static SMP_STATUS smp_rbt_free(struct smp_rbt_s *rbt);
+static void smp_preorder(struct smp_rbt_s *rbt,
+                         struct smp_rbt_node_s *tree, smp_rbt_key_order *print);
+static void smp_inorder(struct smp_rbt_s *rbt,
+                        struct smp_rbt_node_s *tree, smp_rbt_key_order *print);
+static void smp_postorder(struct smp_rbt_s *rbt,
+                          struct smp_rbt_node_s *tree, smp_rbt_key_order *print);
 
 
 
@@ -554,23 +560,25 @@ SMP_STATUS smp_rbt_destory(struct smp_rbt_s *rbt)
 /*
  * 前序遍历"红黑树"
 */
-static void smp_preorder(struct smp_rbt_s *rbt, struct smp_rbt_node_s *tree)
+static void smp_preorder(struct smp_rbt_s *rbt,
+                         struct smp_rbt_node_s *tree, smp_rbt_key_order *print)
 {
     if(tree != NULL && tree != &rbt->nil)
     {
-        printf("%d ", *((int *) tree->key));
-        smp_preorder(rbt, tree->left);
-        smp_preorder(rbt, tree->right);
+//        printf("%d ", *((int *) tree->key));
+        print(tree->key);
+        smp_preorder(rbt, tree->left, print);
+        smp_preorder(rbt, tree->right, print);
     }
 }
 
 
-void smp_rbt_preorder(struct smp_rbt_s *rbt)
+void smp_rbt_preorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print)
 {
     printf("the preorder \n");
 
     if (rbt != NULL)
-        smp_preorder(rbt, rbt->root);
+        smp_preorder(rbt, rbt->root, print);
 
     printf("\n");
 }
@@ -579,23 +587,25 @@ void smp_rbt_preorder(struct smp_rbt_s *rbt)
 /*
  * 中序遍历"红黑树"
  */
-static void smp_inorder(struct smp_rbt_s *rbt, struct smp_rbt_node_s *tree)
+static void smp_inorder(struct smp_rbt_s *rbt,
+                        struct smp_rbt_node_s *tree, smp_rbt_key_order *print)
 {
     if(tree != NULL && tree != &rbt->nil)
     {
-        smp_inorder(rbt, tree->left);
-        printf("%d ", *((int*) tree->key));
-        smp_inorder(rbt, tree->right);
+        smp_inorder(rbt, tree->left, print);
+//        printf("%d ", *((int*) tree->key));
+        print(tree->key);
+        smp_inorder(rbt, tree->right, print);
     }
 }
 
 
-void smp_rbt_inorder(struct smp_rbt_s *rbt)
+void smp_rbt_inorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print)
 {
     printf("the inorder \n");
 
     if (rbt)
-        smp_inorder(rbt, rbt->root);
+        smp_inorder(rbt, rbt->root, print);
 
     printf("\n");
 }
@@ -604,23 +614,24 @@ void smp_rbt_inorder(struct smp_rbt_s *rbt)
 /*
  * 后序遍历"红黑树"
  */
-static void smp_postorder(struct smp_rbt_s *rbt, struct smp_rbt_node_s *tree)
+static void smp_postorder(struct smp_rbt_s *rbt,
+                          struct smp_rbt_node_s *tree, smp_rbt_key_order *print)
 {
     if(tree != NULL && tree != &rbt->nil)
     {
-        smp_postorder(rbt, tree->left);
-        smp_postorder(rbt, tree->right);
-        printf("%d ", *((int*) tree->key));
+        smp_postorder(rbt, tree->left, print);
+        smp_postorder(rbt, tree->right, print);
+        print(tree->key);
     }
 }
 
 
-void smp_rbt_postorder(struct smp_rbt_s *rbt)
+void smp_rbt_postorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print)
 {
     printf("the postorder \n");
 
     if (rbt)
-        smp_postorder(rbt, rbt->root);
+        smp_postorder(rbt, rbt->root, print);
 
     printf("\n");
 }

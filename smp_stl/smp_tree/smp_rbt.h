@@ -4,7 +4,7 @@
 
 typedef int (smp_rbt_keycmp) (void *, void *);
 typedef int (smp_rbt_keyfree) (void *);
-
+typedef int (smp_rbt_key_order) (void *);
 
 typedef struct smp_rbt_node_s {
     struct smp_rbt_node_s *parent;
@@ -44,8 +44,8 @@ SMP_STATUS smp_rnode_delete_bykey(struct smp_rbt_s *rbt, void *key);
 SMP_STATUS smp_rbt_destory(struct smp_rbt_s *rbt);
 
 
-void smp_rbt_preorder(struct smp_rbt_s *rbt);
-void smp_rbt_inorder(struct smp_rbt_s *rbt);
-void smp_rbt_postorder(struct smp_rbt_s *rbt);
+void smp_rbt_preorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print);
+void smp_rbt_inorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print);
+void smp_rbt_postorder(struct smp_rbt_s *rbt, smp_rbt_key_order *print);
 
 #endif // SMP_RBT_H
