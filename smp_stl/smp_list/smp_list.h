@@ -26,6 +26,6 @@ typedef struct smp_list_s {
 struct smp_list_s *smp_list_create(size_t elem_size, uint part_elem_maxmnt);
 void *smp_list_push(struct smp_list_s *list);
 SMP_STATUS smp_list_destory(struct smp_list_s *list);
-inline void smp_list_traversal(struct smp_list_s *list, smp_visit_list_elem *visit_func);
+void smp_list_traversal(struct smp_list_s *list, smp_visit_list_elem *visit_func);
 
 #endif // SMP_LIST_H

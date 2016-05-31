@@ -29,21 +29,21 @@ typedef struct smp_queue_s {
 }smp_qhead_t, smp_queue_t;
 
 
-inline SMP_VALUE smp_queue_quote_dec(struct smp_queue_s *queue);
-inline SMP_VALUE smp_queue_quote_inc(struct smp_queue_s *queue);
-inline SMP_VALUE smp_qlen(struct smp_queue_s *queue);
+SMP_VALUE smp_queue_quote_dec(struct smp_queue_s *queue);
+SMP_VALUE smp_queue_quote_inc(struct smp_queue_s *queue);
+SMP_VALUE smp_qlen(struct smp_queue_s *queue);
 struct smp_queue_s *smp_queue_create(smp_qnode_free *free_node);
 struct smp_queue_node_s *smp_qnode_create(smp_qdata_free *free_qdata, void *data);
-inline struct smp_queue_node_s *smp_cnt_qnode(smp_cnt_t *cnt);
-inline SMP_BOOLEAN smp_qempty(struct smp_queue_s *queue);
-inline struct smp_queue_node_s *smp_qfront(struct smp_queue_s *queue);
-inline struct smp_queue_node_s *smp_qrear(struct smp_queue_s *queue);
-inline struct smp_queue_node_s *smp_qnode_prev(struct smp_queue_s *queue, struct smp_queue_node_s *node);
-inline struct smp_queue_node_s *smp_qnode_next(struct smp_queue_s *queue, struct smp_queue_node_s *node);
-inline SMP_STATUS smp_qenter(struct smp_queue_s *queue, struct smp_queue_node_s *node);
+struct smp_queue_node_s *smp_cnt_qnode(smp_cnt_t *cnt);
+SMP_BOOLEAN smp_qempty(struct smp_queue_s *queue);
+struct smp_queue_node_s *smp_qfront(struct smp_queue_s *queue);
+struct smp_queue_node_s *smp_qrear(struct smp_queue_s *queue);
+struct smp_queue_node_s *smp_qnode_prev(struct smp_queue_s *queue, struct smp_queue_node_s *node);
+struct smp_queue_node_s *smp_qnode_next(struct smp_queue_s *queue, struct smp_queue_node_s *node);
+SMP_STATUS smp_qenter(struct smp_queue_s *queue, struct smp_queue_node_s *node);
 struct smp_queue_node_s *smp_qinsert(struct smp_queue_s *queue, void *data, smp_qdata_free *free_qdata);
-inline struct smp_queue_node_s *smp_qnode_remove(struct smp_queue_s *queue);
-inline SMP_STATUS smp_qnode_destory(struct smp_queue_node_s *node);
+struct smp_queue_node_s *smp_qnode_remove(struct smp_queue_s *queue);
+SMP_STATUS smp_qnode_destory(struct smp_queue_node_s *node);
 SMP_STATUS smp_qnode_delete(struct smp_queue_s *queue);
 SMP_STATUS smp_qclean(struct smp_queue_s *queue);
 SMP_STATUS smp_qdestory(struct smp_queue_s *queue);

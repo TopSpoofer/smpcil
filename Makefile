@@ -64,12 +64,11 @@ smp_queue.o: ./smp_stl/smp_queue/smp_queue.c ./smpcil.h \
 		./smp_stl/smp_stl.h
 	$(CC) -c $(CFLAGS)  -o smp_queue.o ./smp_stl/smp_queue/smp_queue.c
 
-smp_rbt.o: ./smp_stl/smp_tree/smp_rbt.c ./smpcil.h \
+smp_rbt.o: ./smp_stl/smp_queue/smp_queue.h ./smp_stl/smp_tree/smp_rbt.c ./smpcil.h \
 		./smp_linux/smp_error/smp_error.h \
-		./smp_stl/smp_queue/smp_queue.h \
-		./smp_stl/smp_stl.h \
 		./smp_mpool/smp_mpool.h \
-		./smp_stl/smp_tree/smp_rbt.h
+		./smp_stl/smp_tree/smp_rbt.h \
+		./smp_stl/smp_stl.h
 	$(CC) -c $(CFLAGS) -o smp_rbt.o ./smp_stl/smp_tree/smp_rbt.c
 
 smp_mpool.o: ./smp_mpool/smp_mpool.c ./smpcil.h \

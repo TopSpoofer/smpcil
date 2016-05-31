@@ -51,29 +51,29 @@ SMP_STATUS smp_str_destory_complete(struct smp_str_s *str);
 SMP_STATUS smp_str_destory(struct smp_str_s *str);
 SMP_STATUS smp_split_destory(struct smp_split_s *sp);
 
-inline SMP_STATUS smp_str_chrprint(struct smp_str_s *str);
-inline SMP_STATUS smp_str_hexprint(struct smp_str_s *str);
+SMP_STATUS smp_str_chrprint(struct smp_str_s *str);
+SMP_STATUS smp_str_hexprint(struct smp_str_s *str);
 char *smp_str_trim(char * str);
 char *smp_str_trimLF(char *str);
-inline char *smp_str_trimCRLF(char *str);
-inline char *smp_str_trim_complete(char *str);
+char *smp_str_trimCRLF(char *str);
+char *smp_str_trim_complete(char *str);
 
 /* substr */
-inline SMP_VALUE smp_str_substr_exist(const char *text, const char *substr);
+SMP_VALUE smp_str_substr_exist(const char *text, const char *substr);
 struct smp_split_s *smp_str_split(const char *text, const char *delim, uint limit);
 char *smp_strtok(char *str, const char *delim);
 
 /* key value */
-inline SMP_BOOLEAN smp_kv_keyIsequal_bykeychr(const struct smp_kv_s *kv, const char *key);
-inline SMP_BOOLEAN smp_kv_keyIsequal_bystrs(const struct smp_str_s *key1, const struct smp_str_s *key2);
-inline SMP_BOOLEAN smp_kv_keyIsequal_bykeys(const struct smp_kv_s *kv1, const struct smp_kv_s *kv2);
+SMP_BOOLEAN smp_kv_keyIsequal_bykeychr(const struct smp_kv_s *kv, const char *key);
+SMP_BOOLEAN smp_kv_keyIsequal_bystrs(const struct smp_str_s *key1, const struct smp_str_s *key2);
+SMP_BOOLEAN smp_kv_keyIsequal_bykeys(const struct smp_kv_s *kv1, const struct smp_kv_s *kv2);
 struct smp_kv_s *smp_kv_create(void *pool);
-inline SMP_STATUS smp_kv_build(struct smp_kv_s *kv, const char *key, const char *value);
+SMP_STATUS smp_kv_build(struct smp_kv_s *kv, const char *key, const char *value);
 struct smp_kv_s *smp_kv_init(void *pool, const char *key, const char *value);
 
 /* BoyerMoore */
 int *smp_BoyerMoore(const char *substr, const char *text, uint limit);
-inline SMP_STATUS smp_bm_point_destory(int *point);
+SMP_STATUS smp_bm_point_destory(int *point);
 SMP_BOOLEAN smp_bm_substr_exist(const char *text, const char *substr);
 
 #endif // SMP_STRING_H

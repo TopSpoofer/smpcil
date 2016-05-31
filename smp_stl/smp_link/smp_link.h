@@ -34,10 +34,10 @@ struct smp_link_node_s *smp_link_insert(struct smp_link_s *link, void *data);
 void *smp_link_node_rm_athead(struct smp_link_s *link);
 void *smp_link_node_rm_attail(struct smp_link_s *link);
 void *smp_link_node_rm(struct smp_link_s *link, void *data, smp_link_data_cmp *cmp_func);
-inline size_t smp_link_size(struct smp_link_s *link);
-inline SMP_VALUE smp_link_quote_inc(struct smp_link_s *link);
-inline SMP_VALUE smp_link_quote_dec(struct smp_link_s *link);
-inline SMP_STATUS smp_link_destory(struct smp_link_s *link);
+size_t smp_link_size(struct smp_link_s *link);
+SMP_VALUE smp_link_quote_inc(struct smp_link_s *link);
+SMP_VALUE smp_link_quote_dec(struct smp_link_s *link);
+SMP_STATUS smp_link_destory(struct smp_link_s *link);
 SMP_STATUS smp_link_traversal(struct smp_link_s *link, smp_link_visit *visit);
 
 

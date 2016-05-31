@@ -30,18 +30,18 @@ typedef struct smp_stack_s {
 
 struct smp_stack_s *smp_stack_init(uint elem_size, size_t stack_size, smp_stk_appoint *appoint);
 
-inline SMP_VALUE smp_stack_elem_size(struct smp_stack_s *stack);
-inline SMP_VALUE smp_stack_size(struct smp_stack_s *stack);
-inline SMP_VALUE smp_stack_length(struct smp_stack_s *stack);
-inline SMP_BOOLEAN smp_stack_empty(struct smp_stack_s *stack);
-inline SMP_BOOLEAN smp_stack_filled(struct smp_stack_s *stack);
+SMP_VALUE smp_stack_elem_size(struct smp_stack_s *stack);
+SMP_VALUE smp_stack_size(struct smp_stack_s *stack);
+SMP_VALUE smp_stack_length(struct smp_stack_s *stack);
+SMP_BOOLEAN smp_stack_empty(struct smp_stack_s *stack);
+SMP_BOOLEAN smp_stack_filled(struct smp_stack_s *stack);
 
 void *smp_stack_gettop(struct smp_stack_s *stack);
 void *smp_stack_push(struct smp_stack_s *stack, void *elem_data);
 struct smp_stack_node_s *smp_stack_pop(struct smp_stack_s *stack);
 
-inline void smp_stack_recover(struct smp_stack_s *stack, struct smp_stack_node_s *node);
-inline SMP_STATUS smp_stack_destory(struct smp_stack_s *stack);
+void smp_stack_recover(struct smp_stack_s *stack, struct smp_stack_node_s *node);
+SMP_STATUS smp_stack_destory(struct smp_stack_s *stack);
 
 
 #endif // SMP_STACK_H
