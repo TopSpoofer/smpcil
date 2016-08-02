@@ -9,3 +9,7 @@
 三、使用smpcil请参考example的例子
 
 四、文档链接：http://www.dgllele.com/projects/smpcil/index.html
+
+smpcil 是一个linux下的c语言工具库，提供常用的数据结构，如rbt、queue、link、list等。smpci封装了一个简单小巧的内存池，满足了日常的使用。
+
+smpcil还有其他不错的功能，如字符串切割、子串提取。
